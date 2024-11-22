@@ -3,6 +3,8 @@ from tkinter import *
 from PIL import Image
 from customtkinter import CTkImage
 from tkinter import messagebox
+import sqlite3
+import os
 
 janela = ctk.CTk()
 
@@ -12,6 +14,8 @@ class LoginView():
         self.tela()
         self.tela_login()
         janela.mainloop()
+    def conectar_db(self):
+      return sqlite3.connect(os.path.abspath("data/data_bd.db") )   
 
     def tela(self):
         janela.geometry("700x400")
@@ -73,6 +77,7 @@ class LoginView():
         check_botao = ctk.CTkCheckBox(
             master=self.frame_login, text="Lembrar-me", font=("Roboto", 12)
         ).place(x=25, y=240)
+        #--------------------------------------------------------
         #criação da função logar
         def logar():
           #verifica se o campo de email está vazio
@@ -84,7 +89,7 @@ class LoginView():
           #se tudo estiver correto, loga
             else:
                 messagebox.showinfo("Sucesso", "Login realizado com sucesso!")
-
+#----------------------------------------------------------------------------
         login_botao = ctk.CTkButton(
             master=self.frame_login, text="Login", font=("Roboto", 16),command=logar, width=100
         ).place(x=125, y=280)
@@ -148,26 +153,12 @@ class LoginView():
                             show="*",
                         )
       senha_entry.place(x=25, y=170)
-      ctk.CTkLabel(
-                                    master=self.frame_cadastro,
-                                    text="*Senha obrigatória!",
-                                    font=("Roboto", 12),
-                                    text_color="red",
-                                ).place(x=130, y=200)
+      ctk.CTkLabel(master=self.frame_cadastro,text="*Senha obrigatória!",font=("Roboto", 12),text_color="red",).place(x=130, y=200)
         #repetir se as senhas conferem ou não
-      senha_entry2 = ctk.CTkEntry(
-                                master=self.frame_cadastro,
-                                width=300,
-                                placeholder_text="Repita a senha",
-                                font=("Roboto", 14),
-                                show="*",
-                            )
+      senha_entry2 = ctk.CTkEntry(master=self.frame_cadastro,width=300,placeholder_text="Repita a senha",font=("Roboto", 14), show="*", )
       senha_entry2.place(x=25, y=230)
-
-      # criação do checkbox termos de uso
-      self.check_botao = ctk.CTkCheckBox(
-                                    master=self.frame_cadastro, text="Aceito os termos de uso", font=("Roboto", 12)
-                                )
+     # criação do checkbox termos de uso
+      self.check_botao = ctk.CTkCheckBox(master=self.frame_cadastro, text="Aceito os termos de uso", font=("Roboto", 12))
       self.check_botao.place(x=25, y=280)
 #criação da função de voltar para login
       def voltar_login():
@@ -194,7 +185,6 @@ class LoginView():
         #verifica se o checkbox está marcado
         elif not self.check_botao.get():
           messagebox.showinfo("Erro", "Você precisa aceitar os termos de uso!")
-
         #se tudo estiver correto, salva o cadastro
         else:
           messagebox.showinfo("Sucesso", "Cadastro realizado com sucesso!")
@@ -202,6 +192,5 @@ class LoginView():
           self.tela_login()
       #botao de voltar para login 
       botao_cadastrar = ctk.CTkButton(master=self.frame_cadastro, text="Cadastrar", font=("Roboto", 16),command=save_cadastrar, width=100).place(x=200, y=320) 
-
 # Executando o aplicativo
 LoginView()
